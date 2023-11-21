@@ -2,12 +2,19 @@ package com.anketa.mapper;
 
 import com.anketa.dto.AnswerDTO;
 import com.anketa.model.Answer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AnswerMapper {
-    public static AnswerDTO convertToDTO(Answer answer){
+
+    @Autowired
+    UserMapper userMapper;
+
+    public AnswerDTO convertToDTO(Answer answer){
         return new AnswerDTO(
             answer.getAnswer(),
-            answer.getUser().getName()
+            userMapper.convertToDTO(answer.getUser())
         );
     }
 }
