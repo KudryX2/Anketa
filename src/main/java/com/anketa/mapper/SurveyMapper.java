@@ -13,6 +13,7 @@ public class SurveyMapper {
 
     public SurveyDTO convertToDTO(Survey survey){
         return new SurveyDTO(
+            survey.getReference(),
             survey.getName(),
             survey.getQuestions().stream()
                 .map(questionMapper::convertToDTO)
