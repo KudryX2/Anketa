@@ -1,16 +1,22 @@
 package com.anketa.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "surveys")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Survey implements Serializable {
 
     @Id
@@ -23,10 +29,9 @@ public class Survey implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
-    @JsonBackReference
     private User owner;
 
     @OneToMany(mappedBy = "survey", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<Question> questions;
+
 }
