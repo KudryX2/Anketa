@@ -5,9 +5,9 @@ import com.anketa.exception.BadRequestException;
 import com.anketa.mapper.SurveyMapper;
 import com.anketa.model.Survey;
 import com.anketa.repository.SurveyRepository;
+import com.anketa.service.validation.ValidationService;
+import com.anketa.service.validation.ValidationServiceImpl;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -29,6 +29,9 @@ public class SurveyServiceImplTest {
 
     @Mock
     private SurveyMapper surveyMapper;
+
+    @Mock
+    private ValidationServiceImpl validationService;
 
     private final String reference = "survey-ref";
     private final String name = "survey name";
@@ -74,6 +77,8 @@ public class SurveyServiceImplTest {
 
     @Test
     public void createSurveyTest_ShouldCreateNewSurvey(){
+        Mockito.when(validationService.validateTextField(surveyDTO.name()))
+            .thenReturn(true);
         Mockito.when(surveyMapper.convertToEntity(surveyDTO))
             .thenReturn(survey);
         Mockito.when(surveyRepository.save(survey))
@@ -83,24 +88,12 @@ public class SurveyServiceImplTest {
     }
 
     @Test
-    public void createSurveyTest_ShouldThrowBadExceptionWhenNameIsNull(){
-        Assertions.assertThrows(
-            BadRequestException.class ,
-            () -> surveyService.createSurvey(new SurveyDTO(null, null, null)));
-    }
+    public void createSurveyTest_ShouldThrowBadExceptionWhenNameIsNotValid(){
+        Mockito.when(validationService.validateTextField(surveyDTO.name()))
+            .thenReturn(false);
 
-    @Test
-    public void createSurveyTest_ShouldThrowBadExceptionWhenNameIsEmpty(){
         Assertions.assertThrows(
-            BadRequestException.class ,
-            () -> surveyService.createSurvey(new SurveyDTO(null, " ", null)));
-    }
-
-    @Test
-    public void createSurveyTest_ShouldThrowBadExceptionWhenNameNotValid(){
-        Assertions.assertThrows(
-            BadRequestException.class ,
-            () -> surveyService.createSurvey(new SurveyDTO(null, "') OR 1 = 1 drop tabl...", null)));
+            BadRequestException.class , () -> surveyService.createSurvey(surveyDTO));
     }
 
 }
