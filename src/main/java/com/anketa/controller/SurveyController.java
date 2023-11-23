@@ -3,11 +3,7 @@ package com.anketa.controller;
 import com.anketa.dto.SurveyDTO;
 import com.anketa.service.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.cdi.Eager;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +22,11 @@ public class SurveyController {
     @GetMapping(value = "/{reference}", produces = {"application/json"})
     public SurveyDTO getSurvey(@PathVariable String reference){
         return surveyService.getSurvey(reference);
+    }
+
+    @PostMapping(produces = {"application/json"})
+    public String createSurvey(@RequestBody SurveyDTO surveyDTO){
+        return surveyService.createSurvey(surveyDTO);
     }
 
 }

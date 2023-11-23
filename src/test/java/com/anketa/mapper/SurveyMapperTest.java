@@ -23,11 +23,13 @@ public class SurveyMapperTest {
     @Mock
     private QuestionMapper questionMapper;
 
+    private final String surveyName = "Foodie anketa";
+
+
     @Test
     public void convertToDtoTest_ShouldMapSurveyToSurveyDTO(){
 
         String questionString = "What is your favourite food?";
-        String nameString = "Foodie anketa";
 
         Question question = Question.builder()
                 .question(questionString)
@@ -37,7 +39,7 @@ public class SurveyMapperTest {
         QuestionDTO questionDTO = new QuestionDTO(questionString, new ArrayList<>());
 
         Survey survey = Survey.builder()
-                .name(nameString)
+                .name(surveyName)
                 .questions(List.of(question))
                 .build();
 
@@ -45,8 +47,18 @@ public class SurveyMapperTest {
         SurveyDTO surveyDTO = surveyMapper.convertToDTO(survey);
 
         Assertions.assertNotNull(surveyDTO);
-        Assertions.assertEquals(nameString, surveyDTO.name());
+        Assertions.assertEquals(surveyName, surveyDTO.name());
         Assertions.assertNotNull(surveyDTO.questionList());
+    }
+
+    @Test
+    public void convertToEntity_ShouldMapSurveyDTOToSurvey(){
+        SurveyDTO surveyDTO = new SurveyDTO("reference", surveyName, new ArrayList<>());
+
+        Survey survey = surveyMapper.convertToEntity(surveyDTO);
+
+        Assertions.assertNotNull(survey);
+        Assertions.assertEquals(surveyName, surveyDTO.name());
     }
 
 }

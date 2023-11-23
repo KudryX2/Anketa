@@ -5,6 +5,8 @@ import com.anketa.model.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class SurveyMapper {
 
@@ -19,5 +21,12 @@ public class SurveyMapper {
                 .map(questionMapper::convertToDTO)
                 .toList()
         );
+    }
+
+    public Survey convertToEntity(SurveyDTO surveyDTO){
+        return Survey.builder()
+                .reference(String.valueOf(UUID.randomUUID()))
+                .name(surveyDTO.name())
+                .build();
     }
 }

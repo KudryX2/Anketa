@@ -6,8 +6,10 @@ import java.util.List;
 
 public interface SurveyService {
 
-    public List<SurveyDTO> getList();
+    List<SurveyDTO> getList();
 
-    public SurveyDTO getSurvey(String reference);
+    SurveyDTO getSurvey(String reference);
+
+    String createSurvey(SurveyDTO surveyDTO);
 
 }

@@ -72,4 +72,35 @@ public class SurveyServiceImplTest {
                 BadRequestException.class, () -> surveyService.getSurvey(reference));
     }
 
+    @Test
+    public void createSurveyTest_ShouldCreateNewSurvey(){
+        Mockito.when(surveyMapper.convertToEntity(surveyDTO))
+            .thenReturn(survey);
+        Mockito.when(surveyRepository.save(survey))
+            .thenReturn(survey);
+
+        Assertions.assertEquals(survey.getReference() , surveyService.createSurvey(surveyDTO));
+    }
+
+    @Test
+    public void createSurveyTest_ShouldThrowBadExceptionWhenNameIsNull(){
+        Assertions.assertThrows(
+            BadRequestException.class ,
+            () -> surveyService.createSurvey(new SurveyDTO(null, null, null)));
+    }
+
+    @Test
+    public void createSurveyTest_ShouldThrowBadExceptionWhenNameIsEmpty(){
+        Assertions.assertThrows(
+            BadRequestException.class ,
+            () -> surveyService.createSurvey(new SurveyDTO(null, " ", null)));
+    }
+
+    @Test
+    public void createSurveyTest_ShouldThrowBadExceptionWhenNameNotValid(){
+        Assertions.assertThrows(
+            BadRequestException.class ,
+            () -> surveyService.createSurvey(new SurveyDTO(null, "') OR 1 = 1 drop tabl...", null)));
+    }
+
 }

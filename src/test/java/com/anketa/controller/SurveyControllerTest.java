@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.AbstractSet;
 import java.util.ArrayList;
 
 @SpringBootTest
@@ -21,6 +20,11 @@ public class SurveyControllerTest {
     @Mock
     private SurveyService surveyService;
 
+    private final String reference = "survey-ref";
+    private final String surveyName = "survey name";
+    private final SurveyDTO surveyDTO = new SurveyDTO(reference, surveyName, new ArrayList<>());
+
+
     @Test
     public void getListTest_ShouldReturnAllTheSurveysList(){
         Mockito.when(surveyService.getList()).thenReturn(new ArrayList<>());
@@ -29,9 +33,13 @@ public class SurveyControllerTest {
 
     @Test
     public void getSurveyTest_ShouldReturnSurveyByReference(){
-        final String reference = "survey-ref";
-        Mockito.when(surveyService.getSurvey(reference))
-            .thenReturn(new SurveyDTO(reference, "surveyName", new ArrayList<>()));
+        Mockito.when(surveyService.getSurvey(reference)).thenReturn(surveyDTO);
         Assertions.assertNotNull(surveyController.getSurvey(reference));
+    }
+
+    @Test
+    public void createSurveyTest_ShouldAddNewSurveyAndReturnReference(){
+        Mockito.when(surveyService.createSurvey(surveyDTO)).thenReturn(reference);
+        Assertions.assertEquals(reference, surveyController.createSurvey(surveyDTO));
     }
 }

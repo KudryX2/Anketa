@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SurveyServiceImpl implements SurveyService{
@@ -32,4 +33,17 @@ public class SurveyServiceImpl implements SurveyService{
                 .orElseThrow(() -> new BadRequestException("Bad Request: " + reference));
         return surveyMapper.convertToDTO(survey);
     }
+
+    @Override
+    public String createSurvey(SurveyDTO surveyDTO) {
+        if((Objects.isNull(surveyDTO.name()) ||
+            surveyDTO.name().isBlank()) ||
+            !surveyDTO.name().matches("[a-zA-Z0-9 ]+"))
+                throw new BadRequestException("Bad Request : name is not valid");
+
+        Survey survey = surveyMapper.convertToEntity(surveyDTO);
+        return surveyRepository.save(survey).getReference();
+    }
+
+
 }
