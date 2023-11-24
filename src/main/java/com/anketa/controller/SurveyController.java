@@ -24,7 +24,7 @@ public class SurveyController {
         return surveyService.getSurvey(reference);
     }
 
-    @PostMapping(produces = {"application/json"})
+    @PostMapping()
     public String createSurvey(@RequestBody SurveyDTO surveyDTO){
         return surveyService.createSurvey(surveyDTO);
     }
