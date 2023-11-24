@@ -2,7 +2,7 @@ INSERT INTO users (name) VALUES('kudry');
 INSERT INTO users (name) VALUES('paco');
 INSERT INTO users (name) VALUES('sergio');
 
-INSERT INTO surveys (reference, name, owner_id) VALUES('kudry-first-anketa','First Anketa', '1');
+INSERT INTO surveys (reference, name, owner_id) VALUES('1f954bde-da5c-4348-8f85-23b62633e483','First Anketa', '1');
 
 INSERT INTO questions (question, survey_id) VALUES('what is favourite programming language?', '1');
 INSERT INTO questions (question, survey_id) VALUES('what is favourite band?', '1');

@@ -17,18 +17,32 @@ public class ValidationServiceImplTest {
     }
 
     @Test
-    public void validateTextFieldTest_ShouldReturnFalseAsItIsNull(){
+    public void validateTextFieldTest_ShouldReturnFalseIsNull(){
         Assertions.assertFalse(validationService.validateTextField(null));
     }
 
     @Test
-    public void validateTextFieldTest_ShouldReturnFalseAsItIsEmpty(){
+    public void validateTextFieldTest_ShouldReturnFalseIsEmpty(){
         Assertions.assertFalse(validationService.validateTextField(" "));
     }
 
     @Test
-    public void validateTextFieldTest_ShouldReturnFalseAsItContainsInvalidCharacters(){
+    public void validateTextFieldTest_ShouldReturnFalseInvalidCharacters(){
         Assertions.assertFalse(validationService.validateTextField("') OR 1 = 1 drop tabl..."));
     }
 
+    @Test
+    public void validateReferenceTest_ShouldReturnTrue(){
+        Assertions.assertTrue(validationService.validateReference("1f954bde-da5c-4348-8f85-23b62633e483"));
+    }
+
+    @Test
+    public void validateReferenceTest_ShouldReturnFalseInvalidLength(){
+        Assertions.assertFalse(validationService.validateReference("1f954bde-da5c-4348-8f85-23b"));
+    }
+
+    @Test
+    public void validateReferenceTest_ShouldReturnFalseInvalidCharacters(){
+        Assertions.assertFalse(validationService.validateReference("') OR 1 = 1 drop tabl..."));
+    }
 }

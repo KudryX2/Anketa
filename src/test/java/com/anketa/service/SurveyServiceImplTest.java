@@ -55,6 +55,8 @@ public class SurveyServiceImplTest {
 
     @Test
     public void getSurveyTest_ShouldReturnSurveyByReference(){
+        Mockito.when(validationService.validateReference(reference))
+            .thenReturn(true);
         Mockito.when(surveyRepository.findByReference(reference))
             .thenReturn(Optional.of(survey));
         Mockito.when(surveyMapper.convertToDTO(survey))
@@ -67,7 +69,18 @@ public class SurveyServiceImplTest {
     }
 
     @Test
-    public void getSurveyTest_ShouldThrowExceptionWhenSurveyNotFound() {
+    public void getSurveyTest_ShouldThrowExceptionInvalidReference() {
+        Mockito.when(validationService.validateReference(reference))
+                .thenReturn(false);
+
+        Assertions.assertThrows(
+                BadRequestException.class, () -> surveyService.getSurvey(reference));
+    }
+
+    @Test
+    public void getSurveyTest_ShouldThrowExceptionSurveyNotFound() {
+        Mockito.when(validationService.validateReference(reference))
+                .thenReturn(true);
         Mockito.when(surveyRepository.findByReference(reference))
             .thenReturn(Optional.empty());
 

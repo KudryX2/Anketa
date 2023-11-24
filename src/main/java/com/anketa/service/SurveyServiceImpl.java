@@ -33,8 +33,10 @@ public class SurveyServiceImpl implements SurveyService{
 
     @Override
     public SurveyDTO getSurvey(String reference) {
+        if(!validationService.validateReference(reference))
+            throw new BadRequestException("Bad Request : reference is not valid");
         Survey survey = surveyRepository.findByReference(reference)
-            .orElseThrow(() -> new BadRequestException("Bad Request: " + reference));
+            .orElseThrow(() -> new BadRequestException("Bad Request : reference is not valid"));
         return surveyMapper.convertToDTO(survey);
     }
 
@@ -46,6 +48,5 @@ public class SurveyServiceImpl implements SurveyService{
         Survey survey = surveyMapper.convertToEntity(surveyDTO);
         return surveyRepository.save(survey).getReference();
     }
-
 
 }

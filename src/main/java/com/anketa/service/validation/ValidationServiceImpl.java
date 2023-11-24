@@ -14,4 +14,14 @@ public class ValidationServiceImpl implements ValidationService{
             value.matches("[a-zA-Z0-9 ]+")
         );
     }
+
+    @Override
+    public boolean validateReference(String value) {
+        return value.matches(
+            "^[a-fA-F0-9]{8}" +
+            "-[a-fA-F0-9]{4}" +
+            "-[1-5][a-fA-F0-9]{3}" +
+            "-[89aAbB][a-fA-F0-9]{3}" +
+            "-[a-fA-F0-9]{12}$");
+    }
 }
