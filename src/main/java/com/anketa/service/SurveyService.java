@@ -12,4 +12,5 @@ public interface SurveyService {
 
     String createSurvey(SurveyDTO surveyDTO);
 
+    void deleteSurvey(String reference);
 }

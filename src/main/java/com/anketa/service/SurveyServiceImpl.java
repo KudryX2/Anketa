@@ -49,4 +49,14 @@ public class SurveyServiceImpl implements SurveyService{
         return surveyRepository.save(survey).getReference();
     }
 
+    @Override
+    public void deleteSurvey(String reference) {
+        if(!validationService.validateReference(reference))
+            throw new BadRequestException("Bad Request : reference is not valid");
+
+        Survey surveyToDelete = surveyRepository.findByReference(reference)
+            .orElseThrow(() -> new BadRequestException("Bad Request : reference is not valid"));
+        surveyRepository.delete(surveyToDelete);
+    }
+
 }

@@ -5,7 +5,6 @@ import com.anketa.exception.BadRequestException;
 import com.anketa.mapper.SurveyMapper;
 import com.anketa.model.Survey;
 import com.anketa.repository.SurveyRepository;
-import com.anketa.service.validation.ValidationService;
 import com.anketa.service.validation.ValidationServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -33,14 +32,14 @@ public class SurveyServiceImplTest {
     @Mock
     private ValidationServiceImpl validationService;
 
-    private final String reference = "survey-ref";
-    private final String name = "survey name";
+    private final String reference = "1f954bde-da5c-4348-8f85-23b62633e483";
+    private final String surveyName = "survey name";
     private final Survey survey = Survey.builder()
             .reference(reference)
-            .name(name)
+            .name(surveyName)
             .build();
 
-    private final SurveyDTO surveyDTO = new SurveyDTO(reference, name, new ArrayList<>());
+    private final SurveyDTO surveyDTO = new SurveyDTO(reference, surveyName, new ArrayList<>());
 
 
     @Test
@@ -90,7 +89,7 @@ public class SurveyServiceImplTest {
 
     @Test
     public void createSurveyTest_ShouldCreateNewSurvey(){
-        Mockito.when(validationService.validateTextField(surveyDTO.name()))
+        Mockito.when(validationService.validateTextField(surveyName))
             .thenReturn(true);
         Mockito.when(surveyMapper.convertToEntity(surveyDTO))
             .thenReturn(survey);
@@ -102,11 +101,37 @@ public class SurveyServiceImplTest {
 
     @Test
     public void createSurveyTest_ShouldThrowBadExceptionWhenNameIsNotValid(){
-        Mockito.when(validationService.validateTextField(surveyDTO.name()))
+        Mockito.when(validationService.validateTextField(surveyName))
             .thenReturn(false);
 
         Assertions.assertThrows(
             BadRequestException.class , () -> surveyService.createSurvey(surveyDTO));
+    }
+
+    @Test
+    public void deleteSurveyTest_ShouldDeleteSurvey(){
+        Mockito.when(validationService.validateReference(reference))
+            .thenReturn(true);
+        Mockito.when(surveyRepository.findByReference(reference))
+            .thenReturn(Optional.of(survey));
+
+        surveyService.deleteSurvey(reference);
+
+        Mockito.reset(surveyRepository);
+
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> surveyService.getSurvey(reference));
+    }
+
+    @Test
+    public void deleteSurveyTest_ShouldThrowExceptionReferenceIsNotValid(){
+        Mockito.when(validationService.validateReference(reference))
+            .thenReturn(false);
+
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> surveyService.deleteSurvey(reference));
     }
 
 }

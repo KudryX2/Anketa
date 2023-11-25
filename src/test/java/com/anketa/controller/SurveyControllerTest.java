@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 
@@ -41,5 +42,13 @@ public class SurveyControllerTest {
     public void createSurveyTest_ShouldAddNewSurveyAndReturnReference(){
         Mockito.when(surveyService.createSurvey(surveyDTO)).thenReturn(reference);
         Assertions.assertEquals(reference, surveyController.createSurvey(surveyDTO));
+    }
+
+    @Test
+    public void deleteSurveyTest_ShouldDeleteSurvey(){
+        Mockito.doNothing().when(surveyService).deleteSurvey(reference);
+        Assertions.assertEquals(
+            HttpStatus.OK,
+            surveyController.deleteSurvey(reference).getStatusCode());
     }
 }
