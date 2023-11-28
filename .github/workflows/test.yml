@@ -1,4 +1,4 @@
-name: Java CI
+name: Test
 
 on:
   push:
@@ -32,17 +32,9 @@ jobs:
       - name: Run tests
         run: ./gradlew test
 
-      - name : Upload Artifact
+      - name : Upload Test Result Artifact
         uses: actions/upload-artifact@v3
         if: success() || failure()
         with:
           name: test-results
           path: '**/TEST-*.xml'
-
-      - name: Test Reporting
-        uses: dorny/test-reporter@v1
-        with:
-          artifact: test-results
-          name: JUnit Tests
-          path: '**/TEST-*.xml'
-          reporter: jest-junit
