@@ -32,6 +32,12 @@ jobs:
       - name: Run tests
         run: ./gradlew test
 
+      - uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: test-results
+          path: jest-junit.xml
+
       - name: Test Reporting
         uses: dorny/test-reporter@v1
         with:
