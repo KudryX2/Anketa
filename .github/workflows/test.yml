@@ -35,4 +35,7 @@ jobs:
       - name: Test Report
         uses: dorny/test-reporter@v1
         with:
-          task-name: test
+          artifact: test-results
+          name: JEST Tests
+          path: '*.xml'
+          reporter: jest-junit
