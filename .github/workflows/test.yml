@@ -36,4 +36,5 @@ jobs:
         uses: dorny/test-reporter@v1
         with:
           artifact: test-results
+          name: JUnit Tests
           path: '**/test/**/*.xml'
