@@ -31,3 +31,6 @@ jobs:
 
       - name: Run tests
         run: ./gradlew test
+
+      - name: Show test results
+        run: cat build/reports/tests/test/*.xml
