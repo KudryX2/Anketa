@@ -11,7 +11,7 @@ public class ValidationServiceImpl implements ValidationService{
         return (
             Objects.nonNull(value) &&
             !value.isBlank() &&
-            value.matches("[a-zA-Z0-9 ]+")
+            value.matches("[a-zA-Z0-9?!, ]+")
         );
     }
 

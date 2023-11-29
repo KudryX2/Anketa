@@ -24,13 +24,14 @@ public class QuestionMapperTest {
     @Mock
     AnswerMapper answerMapper;
 
+    private final String reference = "5fc88c59-d88a-4c10-b1a1-dbfd8efb0b67";
+    private final String questionString = "What is your favourite food?";
+
     @Test
     public void convertToDTOTest_ShouldMapQuestionToQuestionDTO(){
 
-        String reference = "5fc88c59-d88a-4c10-b1a1-dbfd8efb0b67";
         String answerString = "Pizza";
         String userName = "Paco";
-        String questionString = "What is your favourite food?";
 
         User user = User.builder()
                 .name(userName)
@@ -56,6 +57,16 @@ public class QuestionMapperTest {
         Assertions.assertNotNull(questionDTO);
         Assertions.assertEquals(questionString, questionDTO.question());
         Assertions.assertNotNull(questionDTO.answerList());
+    }
+
+    @Test
+    public void convertToEntity_ShouldMapQuestionDTOToQuestion(){
+
+        QuestionDTO questionDTO = new QuestionDTO(reference, questionString, new ArrayList<>());
+        Question question = questionMapper.convertToEntity(questionDTO);
+
+        Assertions.assertNotNull(question);
+        Assertions.assertEquals(questionString, question.getQuestion());
     }
 
 }

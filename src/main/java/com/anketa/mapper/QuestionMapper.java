@@ -5,6 +5,8 @@ import com.anketa.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class QuestionMapper {
 
@@ -19,5 +21,12 @@ public class QuestionMapper {
                 .map(answerMapper::convertToDTO)
                 .toList()
         );
+    }
+
+    public Question convertToEntity(QuestionDTO questionDTO){
+        return Question.builder()
+                .reference(String.valueOf(UUID.randomUUID()))
+                .question(questionDTO.question())
+                .build();
     }
 }
