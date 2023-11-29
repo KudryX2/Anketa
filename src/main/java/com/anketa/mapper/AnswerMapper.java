@@ -13,6 +13,7 @@ public class AnswerMapper {
 
     public AnswerDTO convertToDTO(Answer answer){
         return new AnswerDTO(
+            answer.getReference(),
             answer.getAnswer(),
             userMapper.convertToDTO(answer.getUser())
         );

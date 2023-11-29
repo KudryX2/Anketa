@@ -27,6 +27,7 @@ public class QuestionMapperTest {
     @Test
     public void convertToDTOTest_ShouldMapQuestionToQuestionDTO(){
 
+        String reference = "5fc88c59-d88a-4c10-b1a1-dbfd8efb0b67";
         String answerString = "Pizza";
         String userName = "Paco";
         String questionString = "What is your favourite food?";
@@ -35,14 +36,14 @@ public class QuestionMapperTest {
                 .name(userName)
                 .build();
 
-        UserDTO userDTO = new UserDTO(userName);
+        UserDTO userDTO = new UserDTO(reference, userName);
 
         Answer answer = Answer.builder()
             .answer(answerString)
             .user(user)
             .build();
 
-        AnswerDTO answerDTO = new AnswerDTO(answerString, userDTO);
+        AnswerDTO answerDTO = new AnswerDTO(reference, answerString, userDTO);
 
         Question question = Question.builder()
             .question(questionString)

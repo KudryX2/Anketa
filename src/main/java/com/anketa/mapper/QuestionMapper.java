@@ -13,6 +13,7 @@ public class QuestionMapper {
 
     public QuestionDTO convertToDTO(Question question){
         return new QuestionDTO(
+            question.getReference(),
             question.getQuestion(),
             question.getAnswers().stream()
                 .map(answerMapper::convertToDTO)

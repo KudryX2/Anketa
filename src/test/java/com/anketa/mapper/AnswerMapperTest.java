@@ -23,6 +23,7 @@ public class AnswerMapperTest {
     @Test
     public void convertToDTOTest_ShouldMapAnswerToAnswerDTO(){
 
+        String reference = "5fc88c59-d88a-4c10-b1a1-dbfd8efb0b67";
         String answer = "Pizza";
         String userName = "Paco";
 
@@ -30,7 +31,7 @@ public class AnswerMapperTest {
             .name(userName)
             .build();
 
-        UserDTO userDTO = new UserDTO(userName);
+        UserDTO userDTO = new UserDTO(reference, userName);
 
         Answer answerPizza = Answer.builder()
             .answer(answer)

@@ -9,6 +9,7 @@ public class UserMapper {
 
     public UserDTO convertToDTO(User user){
         return new UserDTO(
+            user.getReference(),
             user.getName()
         );
     }

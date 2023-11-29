@@ -24,10 +24,11 @@ public class SurveyMapperTest {
     private QuestionMapper questionMapper;
 
     private final String surveyName = "Foodie anketa";
-
+    private final String reference = "5fc88c59-d88a-4c10-b1a1-dbfd8efb0b67";
 
     @Test
     public void convertToDtoTest_ShouldMapSurveyToSurveyDTO(){
+
 
         String questionString = "What is your favourite food?";
 
@@ -36,7 +37,7 @@ public class SurveyMapperTest {
                 .answers(new ArrayList<>())
                 .build();
 
-        QuestionDTO questionDTO = new QuestionDTO(questionString, new ArrayList<>());
+        QuestionDTO questionDTO = new QuestionDTO(reference, questionString, new ArrayList<>());
 
         Survey survey = Survey.builder()
                 .name(surveyName)
@@ -53,7 +54,7 @@ public class SurveyMapperTest {
 
     @Test
     public void convertToEntity_ShouldMapSurveyDTOToSurvey(){
-        SurveyDTO surveyDTO = new SurveyDTO("reference", surveyName, new ArrayList<>());
+        SurveyDTO surveyDTO = new SurveyDTO(reference, surveyName, new ArrayList<>());
 
         Survey survey = surveyMapper.convertToEntity(surveyDTO);
 
