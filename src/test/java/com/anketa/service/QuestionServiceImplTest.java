@@ -5,6 +5,7 @@ import com.anketa.exception.BadRequestException;
 import com.anketa.mapper.QuestionMapper;
 import com.anketa.model.Question;
 import com.anketa.model.Survey;
+import com.anketa.model.User;
 import com.anketa.repository.QuestionRepository;
 import com.anketa.repository.SurveyRepository;
 import com.anketa.service.validation.ValidationServiceImpl;
@@ -42,9 +43,20 @@ public class QuestionServiceImplTest {
 
     private final QuestionDTO questionDTO = new QuestionDTO(null, questionString, new ArrayList<>());
     private final Question question = Question.builder()
-            .reference(reference)
-            .question(questionString)
-            .build();
+        .reference(reference)
+        .question(questionString)
+        .build();
+
+
+    @Test
+    public void getQuestionTest_ShouldRetrieveQuestionByReference(){
+        Mockito.when(questionRepository.findByReference(reference))
+                .thenReturn(Optional.ofNullable(question));
+
+        Question question = questionService.getQuestion(reference);
+        Assertions.assertNotNull(question);
+        Assertions.assertEquals(reference, question.getReference());
+    }
 
     @Test
     public void createQuestionTest_ShouldCreateQuestion(){
@@ -68,17 +80,17 @@ public class QuestionServiceImplTest {
             .thenReturn(false);
 
         Assertions.assertThrows(BadRequestException.class,
-                () -> questionService.createQuestion(questionDTO, reference));
+            () -> questionService.createQuestion(questionDTO, reference));
     }
 
     @Test
     public void createQuestionTest_ShouldThrowExceptionNotValidSurveyReference(){
         Mockito.when(validationService.validateTextField(questionString))
-                .thenReturn(true);
+            .thenReturn(true);
         Mockito.when(validationService.validateReference(reference))
-                .thenReturn(false);
+            .thenReturn(false);
         Assertions.assertThrows(BadRequestException.class,
-                () -> questionService.createQuestion(questionDTO, reference));
+            () -> questionService.createQuestion(questionDTO, reference));
     }
 
 }

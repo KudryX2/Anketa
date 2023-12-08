@@ -20,18 +20,18 @@ public class AnswerMapperTest {
     @Mock
     UserMapper userMapper;
 
+    private final String reference = "5fc88c59-d88a-4c10-b1a1-dbfd8efb0b67";
+    private final String answer = "Pizza";
+    private final String userName = "Paco";
+    private final UserDTO userDTO = new UserDTO(reference, userName);
+
+
     @Test
     public void convertToDTOTest_ShouldMapAnswerToAnswerDTO(){
-
-        String reference = "5fc88c59-d88a-4c10-b1a1-dbfd8efb0b67";
-        String answer = "Pizza";
-        String userName = "Paco";
 
         User user = User.builder()
             .name(userName)
             .build();
-
-        UserDTO userDTO = new UserDTO(reference, userName);
 
         Answer answerPizza = Answer.builder()
             .answer(answer)
@@ -44,6 +44,17 @@ public class AnswerMapperTest {
         Assertions.assertNotNull(answerDTO);
         Assertions.assertEquals(answer, answerDTO.answer());
         Assertions.assertEquals(userName, answerDTO.user().name());
+    }
+
+    @Test
+    public void convertToEntityTest_ShouldMapAnswerDTOToEntity(){
+
+        AnswerDTO answerDTO = new AnswerDTO(reference, answer, userDTO);
+
+        Answer answerEntity = answerMapper.convertToEntity(answerDTO);
+
+        Assertions.assertNotNull(answer);
+        Assertions.assertEquals(answer, answerEntity.getAnswer());
     }
 
 }

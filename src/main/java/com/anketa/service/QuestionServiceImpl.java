@@ -26,6 +26,13 @@ public class QuestionServiceImpl implements QuestionService{
     @Autowired
     SurveyRepository surveyRepository;
 
+
+    @Override
+    public Question getQuestion(String reference){
+        return questionRepository.findByReference(reference)
+            .orElseThrow(() -> new BadRequestException("Bad Request : question not found"));
+    }
+
     @Override
     public String createQuestion(QuestionDTO questionDTO, String surveyReference) {
         if(!validationService.validateTextField(questionDTO.question()))

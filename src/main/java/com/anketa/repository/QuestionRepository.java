@@ -3,4 +3,8 @@ package com.anketa.repository;
 import com.anketa.model.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface QuestionRepository extends JpaRepository<Question, Long> {}
+import java.util.Optional;
+
+public interface QuestionRepository extends JpaRepository<Question, Long> {
+    Optional<Question> findByReference(String reference);
+}
