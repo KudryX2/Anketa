@@ -61,7 +61,7 @@ public class SurveyServiceImplTest {
         Mockito.when(surveyMapper.convertToDTO(survey))
             .thenReturn(surveyDTO);
 
-        SurveyDTO surveyResult = surveyService.getSurvey(reference);
+        SurveyDTO surveyResult = surveyService.getSurveyDTO(reference);
 
         Assertions.assertNotNull(surveyResult);
         Assertions.assertEquals(reference, surveyResult.reference());
@@ -73,7 +73,7 @@ public class SurveyServiceImplTest {
                 .thenReturn(false);
 
         Assertions.assertThrows(
-                BadRequestException.class, () -> surveyService.getSurvey(reference));
+                BadRequestException.class, () -> surveyService.getSurveyDTO(reference));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class SurveyServiceImplTest {
             .thenReturn(Optional.empty());
 
         Assertions.assertThrows(
-                BadRequestException.class, () -> surveyService.getSurvey(reference));
+                BadRequestException.class, () -> surveyService.getSurveyDTO(reference));
     }
 
     @Test
@@ -121,7 +121,7 @@ public class SurveyServiceImplTest {
 
         Assertions.assertThrows(
             BadRequestException.class,
-            () -> surveyService.getSurvey(reference));
+            () -> surveyService.getSurveyDTO(reference));
     }
 
     @Test

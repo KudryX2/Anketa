@@ -8,7 +8,7 @@ public interface SurveyService {
 
     List<SurveyDTO> getList();
 
-    SurveyDTO getSurvey(String reference);
+    SurveyDTO getSurveyDTO(String reference);
 
     String createSurvey(SurveyDTO surveyDTO);
 

@@ -22,7 +22,7 @@ public class SurveyController {
 
     @GetMapping(value = "/{reference}", produces = {"application/json"})
     public SurveyDTO getSurvey(@PathVariable String reference){
-        return surveyService.getSurvey(reference);
+        return surveyService.getSurveyDTO(reference);
     }
 
     @PostMapping()

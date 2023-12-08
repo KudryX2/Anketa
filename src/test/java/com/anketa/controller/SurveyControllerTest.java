@@ -34,7 +34,7 @@ public class SurveyControllerTest {
 
     @Test
     public void getSurveyTest_ShouldReturnSurveyByReference(){
-        Mockito.when(surveyService.getSurvey(reference)).thenReturn(surveyDTO);
+        Mockito.when(surveyService.getSurveyDTO(reference)).thenReturn(surveyDTO);
         Assertions.assertNotNull(surveyController.getSurvey(reference));
     }
 

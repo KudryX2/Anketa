@@ -32,7 +32,7 @@ public class SurveyServiceImpl implements SurveyService{
     }
 
     @Override
-    public SurveyDTO getSurvey(String reference) {
+    public SurveyDTO getSurveyDTO(String reference) {
         if(!validationService.validateReference(reference))
             throw new BadRequestException("Bad Request : reference is not valid");
         Survey survey = surveyRepository.findByReference(reference)
