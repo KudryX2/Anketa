@@ -24,6 +24,7 @@ public class SurveyServiceImpl implements SurveyService{
     @Autowired
     private ValidationService validationService;
 
+
     @Override
     public List<SurveyDTO> getList() {
         return surveyRepository.findAll().stream()
@@ -32,11 +33,16 @@ public class SurveyServiceImpl implements SurveyService{
     }
 
     @Override
+    public Survey getSurvey(String reference){
+        return surveyRepository.findByReference(reference)
+            .orElseThrow(() -> new BadRequestException("Bad Request : survey reference is not valid "));
+    }
+
+    @Override
     public SurveyDTO getSurveyDTO(String reference) {
         if(!validationService.validateReference(reference))
             throw new BadRequestException("Bad Request : reference is not valid");
-        Survey survey = surveyRepository.findByReference(reference)
-            .orElseThrow(() -> new BadRequestException("Bad Request : reference is not valid"));
+        Survey survey = getSurvey(reference);
         return surveyMapper.convertToDTO(survey);
     }
 

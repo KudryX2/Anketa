@@ -4,6 +4,7 @@ import com.anketa.dto.SurveyDTO;
 import com.anketa.exception.BadRequestException;
 import com.anketa.mapper.SurveyMapper;
 import com.anketa.model.Survey;
+import com.anketa.model.User;
 import com.anketa.repository.SurveyRepository;
 import com.anketa.service.validation.ValidationServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -53,7 +54,17 @@ public class SurveyServiceImplTest {
     }
 
     @Test
-    public void getSurveyTest_ShouldReturnSurveyByReference(){
+    public void getSurveyTest_ShouldRetrieveSurveyByReference(){
+        Mockito.when(surveyRepository.findByReference(reference))
+            .thenReturn(Optional.ofNullable(survey));
+
+        Survey retrievedSurvey = surveyService.getSurvey(reference);
+        Assertions.assertNotNull(retrievedSurvey);
+        Assertions.assertEquals(reference, retrievedSurvey.getReference());
+    }
+
+    @Test
+    public void getSurveyDTOTest_ShouldReturnSurveyDTOByReference(){
         Mockito.when(validationService.validateReference(reference))
             .thenReturn(true);
         Mockito.when(surveyRepository.findByReference(reference))
@@ -68,7 +79,7 @@ public class SurveyServiceImplTest {
     }
 
     @Test
-    public void getSurveyTest_ShouldThrowExceptionInvalidReference() {
+    public void getSurveyDTOTest_ShouldThrowExceptionInvalidReference() {
         Mockito.when(validationService.validateReference(reference))
                 .thenReturn(false);
 
@@ -77,7 +88,7 @@ public class SurveyServiceImplTest {
     }
 
     @Test
-    public void getSurveyTest_ShouldThrowExceptionSurveyNotFound() {
+    public void getSurveyDTOTest_ShouldThrowExceptionSurveyNotFound() {
         Mockito.when(validationService.validateReference(reference))
                 .thenReturn(true);
         Mockito.when(surveyRepository.findByReference(reference))

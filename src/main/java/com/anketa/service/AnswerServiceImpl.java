@@ -17,19 +17,20 @@ import java.util.Objects;
 public class AnswerServiceImpl implements AnswerService{
 
     @Autowired
+    AnswerRepository answerRepository;
+
+    @Autowired
+    AnswerMapper answerMapper;
+
+    @Autowired
     ValidationServiceImpl validationService;
 
     @Autowired
     QuestionServiceImpl questionService;
 
     @Autowired
-    AnswerRepository answerRepository;
-
-    @Autowired
     UserServiceImpl userService;
 
-    @Autowired
-    AnswerMapper answerMapper;
 
     @Override
     public String createAnswer(AnswerDTO answerDTO, String questionReference) {

@@ -6,7 +6,6 @@ import com.anketa.mapper.QuestionMapper;
 import com.anketa.model.Question;
 import com.anketa.model.Survey;
 import com.anketa.repository.QuestionRepository;
-import com.anketa.repository.SurveyRepository;
 import com.anketa.service.validation.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,17 +14,16 @@ import org.springframework.stereotype.Service;
 public class QuestionServiceImpl implements QuestionService{
 
     @Autowired
-    ValidationService validationService;
+    QuestionRepository questionRepository;
 
     @Autowired
     QuestionMapper questionMapper;
 
     @Autowired
-    QuestionRepository questionRepository;
+    ValidationService validationService;
 
     @Autowired
-    SurveyRepository surveyRepository;
-
+    SurveyServiceImpl surveyService;
 
     @Override
     public Question getQuestion(String reference){
@@ -40,8 +38,7 @@ public class QuestionServiceImpl implements QuestionService{
         if(!validationService.validateReference(surveyReference))
             throw new BadRequestException("Bad Request : surveyReference is not valid");
 
-        Survey survey = surveyRepository.findByReference(surveyReference)
-            .orElseThrow(() -> new BadRequestException("Bad Request : surveyReference is not valid"));
+        Survey survey = surveyService.getSurvey(surveyReference);
 
         Question question = questionMapper.convertToEntity(questionDTO);
         question.setSurvey(survey);
