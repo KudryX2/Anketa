@@ -29,7 +29,7 @@ public class QuestionServiceImplTest {
     ValidationServiceImpl validationService;
 
     @Mock
-    SurveyRepository surveyRepository;
+    SurveyServiceImpl surveyService;
 
     @Mock
     QuestionRepository questionRepository;
@@ -64,8 +64,8 @@ public class QuestionServiceImplTest {
             .thenReturn(true);
         Mockito.when(validationService.validateReference(reference))
             .thenReturn(true);
-        Mockito.when(surveyRepository.findByReference(reference))
-            .thenReturn(Optional.of(Survey.builder().build()));
+        Mockito.when(surveyService.getSurvey(reference))
+            .thenReturn(Survey.builder().build());
         Mockito.when(questionMapper.convertToEntity(questionDTO))
             .thenReturn(question);
         Mockito.when(questionRepository.save(question))
