@@ -2,6 +2,7 @@ package com.anketa.service;
 
 import com.anketa.dto.SurveyDTO;
 import com.anketa.exception.BadRequestException;
+import com.anketa.exception.NotFoundException;
 import com.anketa.mapper.SurveyMapper;
 import com.anketa.model.Survey;
 import com.anketa.repository.SurveyRepository;
@@ -35,7 +36,7 @@ public class SurveyServiceImpl implements SurveyService{
     @Override
     public Survey getSurvey(String reference){
         return surveyRepository.findByReference(reference)
-            .orElseThrow(() -> new BadRequestException("Bad Request : survey reference is not valid "));
+            .orElseThrow(() -> new NotFoundException("Not Found : survey not found"));
     }
 
     @Override
@@ -61,7 +62,7 @@ public class SurveyServiceImpl implements SurveyService{
             throw new BadRequestException("Bad Request : reference is not valid");
 
         Survey surveyToDelete = surveyRepository.findByReference(reference)
-            .orElseThrow(() -> new BadRequestException("Bad Request : reference is not valid"));
+            .orElseThrow(() -> new NotFoundException("Not Found : survey not found"));
         surveyRepository.delete(surveyToDelete);
     }
 

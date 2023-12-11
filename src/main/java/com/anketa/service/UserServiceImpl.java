@@ -1,6 +1,7 @@
 package com.anketa.service;
 
 import com.anketa.exception.BadRequestException;
+import com.anketa.exception.NotFoundException;
 import com.anketa.model.User;
 import com.anketa.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public User getUser(String reference) {
         return userRepository.findByReference(reference)
-            .orElseThrow(() -> new BadRequestException("Bad Request : user not found"));
+            .orElseThrow(() -> new NotFoundException("Not Found : user not found"));
     }
 }

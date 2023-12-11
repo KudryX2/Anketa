@@ -2,6 +2,7 @@ package com.anketa.service;
 
 import com.anketa.dto.QuestionDTO;
 import com.anketa.exception.BadRequestException;
+import com.anketa.exception.NotFoundException;
 import com.anketa.mapper.QuestionMapper;
 import com.anketa.model.Question;
 import com.anketa.model.Survey;
@@ -28,7 +29,7 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public Question getQuestion(String reference){
         return questionRepository.findByReference(reference)
-            .orElseThrow(() -> new BadRequestException("Bad Request : question not found"));
+            .orElseThrow(() -> new NotFoundException("Not Found : question not found"));
     }
 
     @Override

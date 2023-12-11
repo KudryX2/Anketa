@@ -2,9 +2,9 @@ package com.anketa.service;
 
 import com.anketa.dto.SurveyDTO;
 import com.anketa.exception.BadRequestException;
+import com.anketa.exception.NotFoundException;
 import com.anketa.mapper.SurveyMapper;
 import com.anketa.model.Survey;
-import com.anketa.model.User;
 import com.anketa.repository.SurveyRepository;
 import com.anketa.service.validation.ValidationServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -95,7 +95,7 @@ public class SurveyServiceImplTest {
             .thenReturn(Optional.empty());
 
         Assertions.assertThrows(
-                BadRequestException.class, () -> surveyService.getSurveyDTO(reference));
+                NotFoundException.class, () -> surveyService.getSurveyDTO(reference));
     }
 
     @Test
@@ -131,7 +131,7 @@ public class SurveyServiceImplTest {
         Mockito.reset(surveyRepository);
 
         Assertions.assertThrows(
-            BadRequestException.class,
+            NotFoundException.class,
             () -> surveyService.getSurveyDTO(reference));
     }
 

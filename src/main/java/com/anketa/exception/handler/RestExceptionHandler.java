@@ -1,6 +1,7 @@
 package com.anketa.exception.handler;
 
 import com.anketa.exception.BadRequestException;
+import com.anketa.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,13 @@ public class RestExceptionHandler {
     public ResponseEntity<String> handleBadRequestException(BadRequestException ex) {
         logger.info("BadRequestException " + ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<String> handleNotFoundException(NotFoundException ex) {
+        logger.info("NotFoundException " + ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
