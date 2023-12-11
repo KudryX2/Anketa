@@ -1,5 +1,6 @@
 package com.anketa.service;
 
+import com.anketa.constants.ErrorMessages;
 import com.anketa.dto.SurveyDTO;
 import com.anketa.exception.BadRequestException;
 import com.anketa.exception.NotFoundException;
@@ -36,13 +37,13 @@ public class SurveyServiceImpl implements SurveyService{
     @Override
     public Survey getSurvey(String reference){
         return surveyRepository.findByReference(reference)
-            .orElseThrow(() -> new NotFoundException("Not Found : survey not found"));
+            .orElseThrow(() -> new NotFoundException(ErrorMessages.SURVEY_NOT_FOUND));
     }
 
     @Override
     public SurveyDTO getSurveyDTO(String reference) {
         if(!validationService.validateReference(reference))
-            throw new BadRequestException("Bad Request : reference is not valid");
+            throw new BadRequestException(ErrorMessages.SURVEY_REFERENCE_NOT_VALID);
         Survey survey = getSurvey(reference);
         return surveyMapper.convertToDTO(survey);
     }
@@ -50,8 +51,7 @@ public class SurveyServiceImpl implements SurveyService{
     @Override
     public String createSurvey(SurveyDTO surveyDTO) {
         if(!validationService.validateTextField(surveyDTO.name()))
-            throw new BadRequestException("Bad Request : name is not valid");
-
+            throw new BadRequestException(ErrorMessages.SURVEY_NAME_NOT_VALID);
         Survey survey = surveyMapper.convertToEntity(surveyDTO);
         return surveyRepository.save(survey).getReference();
     }
@@ -59,10 +59,9 @@ public class SurveyServiceImpl implements SurveyService{
     @Override
     public void deleteSurvey(String reference) {
         if(!validationService.validateReference(reference))
-            throw new BadRequestException("Bad Request : reference is not valid");
-
+            throw new BadRequestException(ErrorMessages.SURVEY_REFERENCE_NOT_VALID);
         Survey surveyToDelete = surveyRepository.findByReference(reference)
-            .orElseThrow(() -> new NotFoundException("Not Found : survey not found"));
+            .orElseThrow(() -> new NotFoundException(ErrorMessages.SURVEY_NOT_FOUND));
         surveyRepository.delete(surveyToDelete);
     }
 

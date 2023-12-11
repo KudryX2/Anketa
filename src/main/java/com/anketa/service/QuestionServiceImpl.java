@@ -1,5 +1,6 @@
 package com.anketa.service;
 
+import com.anketa.constants.ErrorMessages;
 import com.anketa.dto.QuestionDTO;
 import com.anketa.exception.BadRequestException;
 import com.anketa.exception.NotFoundException;
@@ -29,15 +30,15 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public Question getQuestion(String reference){
         return questionRepository.findByReference(reference)
-            .orElseThrow(() -> new NotFoundException("Not Found : question not found"));
+            .orElseThrow(() -> new NotFoundException(ErrorMessages.QUESTION_NOT_FOUND));
     }
 
     @Override
     public String createQuestion(QuestionDTO questionDTO, String surveyReference) {
         if(!validationService.validateTextField(questionDTO.question()))
-            throw new BadRequestException("Bad Request : question is not valid");
+            throw new BadRequestException(ErrorMessages.QUESTION_NOT_VALID);
         if(!validationService.validateReference(surveyReference))
-            throw new BadRequestException("Bad Request : surveyReference is not valid");
+            throw new BadRequestException(ErrorMessages.SURVEY_REFERENCE_NOT_VALID);
 
         Survey survey = surveyService.getSurvey(surveyReference);
 

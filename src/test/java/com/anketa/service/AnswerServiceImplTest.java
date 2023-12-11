@@ -75,16 +75,6 @@ public class AnswerServiceImplTest {
     }
 
     @Test
-    public void createAnswerTest_ShouldThrowExceptionUserIsNotValid(){
-        Mockito.when(validationService.validateTextField(answerDTO.answer()))
-            .thenReturn(true);
-        Assertions.assertThrows(BadRequestException.class,
-            () -> answerService.createAnswer(
-            new AnswerDTO(null, "answer", null), testReference)
-        );
-    }
-
-    @Test
     public void createAnswerTest_ShouldThrowExceptionUserReferenceIsNotValid(){
         Mockito.when(validationService.validateTextField(answerDTO.answer()))
             .thenReturn(true);

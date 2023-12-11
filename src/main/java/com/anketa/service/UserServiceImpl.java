@@ -1,5 +1,6 @@
 package com.anketa.service;
 
+import com.anketa.constants.ErrorMessages;
 import com.anketa.exception.BadRequestException;
 import com.anketa.exception.NotFoundException;
 import com.anketa.model.User;
@@ -16,6 +17,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public User getUser(String reference) {
         return userRepository.findByReference(reference)
-            .orElseThrow(() -> new NotFoundException("Not Found : user not found"));
+            .orElseThrow(() -> new NotFoundException(ErrorMessages.USER_NOT_FOUND));
     }
 }
