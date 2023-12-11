@@ -1,21 +1,34 @@
 package com.anketa.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NaturalId;
+import org.springframework.data.annotation.ReadOnlyProperty;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "questions")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Question implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NaturalId
+    @ReadOnlyProperty
+    @Column(unique = true)
+    private String reference;
 
     @NotBlank
     @Size(max = 280)
@@ -23,10 +36,8 @@ public class Question implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id")
-    @JsonBackReference
     private Survey survey;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Answer> answers;
 }
